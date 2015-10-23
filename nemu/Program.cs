@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace nemu
@@ -10,6 +11,7 @@ namespace nemu
 		static void Main(string[] args)
 		{
 			Console.WriteLine("NEMU - Network Encoder Media Utility");
+			Console.WriteLine($"Version {Assembly.GetExecutingAssembly().GetName().Version.ToString()}");
 
 			if (args.Length > 0)
 			{
@@ -19,7 +21,46 @@ namespace nemu
 					{
 						if (args[i].Length > 1)
 						{
+							if (args[i][1] == '-')
+							{
+								if (args[i].Contains("help"))
+								{
+									Help();
+								}
 
+								if (args[i].Contains("master"))
+								{
+
+								}
+
+								if (args[i].Contains("slave"))
+								{
+
+								}
+							}
+
+							for (int j = 1; j < args[i].Length; j++)
+							{
+								if (args[i][j] == 'h')
+								{
+									Help();
+								}
+
+								if (args[i][j] == 'v')
+								{
+									return;
+								}
+
+								if (args[i][j] == 'm')
+								{
+
+								}
+
+								if (args[i][j] == 's')
+								{
+
+								}
+							}
 						}
 					}
 					else
@@ -36,6 +77,7 @@ namespace nemu
 
 		static void Help()
 		{
+			Console.WriteLine();
 			Console.WriteLine("Usage: nemu [OPTION...] CONFIG.INI FOLDER");
 			Console.WriteLine();
 			Console.WriteLine("Mandatory arguments to long options are mandatory for short options too.");
