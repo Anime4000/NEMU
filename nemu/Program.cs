@@ -4,6 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
+using IniParser;
+using IniParser.Model;
+
 namespace nemu
 {
 	class Program
@@ -48,6 +51,7 @@ namespace nemu
 
 								if (args[i][j] == 'v')
 								{
+									Console.WriteLine("Hi");
 									return;
 								}
 
@@ -65,7 +69,7 @@ namespace nemu
 					}
 					else
 					{
-
+						//
 					}
 				}
 			}
@@ -104,5 +108,26 @@ namespace nemu
 		{
 
 		}
+
+		static void LoadConfig()
+		{
+			IniData Data = new FileIniDataParser().ReadFile("config.ini", Encoding.UTF8);
+
+			Id = int.Parse(Data["config"]["id"]);
+			WatchFolder = Data["config"]["folder"];
+			BinAvsPipe = Data["binary"]["avidec"];
+			BinFFmpeg = Data["binary"]["ffmpeg"];
+			BinHEVC08 = Data["binary"]["08bit"];
+			BinHEVC10 = Data["binary"]["10bit"];
+			BinHEVC12 = Data["binary"]["12bit"];
+		}
+
+		static int Id { get; set; }
+		static string WatchFolder { get; set; }
+		static string BinAvsPipe { get; set; }
+		static string BinFFmpeg { get; set; }
+		static string BinHEVC08 { get; set; }
+		static string BinHEVC10 { get; set; }
+		static string BinHEVC12 { get; set; }
 	}
 }
