@@ -122,7 +122,7 @@ namespace nemu
 
 		static void Master()
 		{
-			// gg
+			
 		}
 
 		static void Slave()
