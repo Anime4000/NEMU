@@ -204,6 +204,9 @@ namespace nemu
 			{
 				if (File.Exists(filejob))
 				{
+					if (FileIO.IsFileLocked(new FileInfo(filejob)))
+						continue;
+
 					// read job file
 					IniData data = new FileIniDataParser().ReadFile(filejob);
 					string video = data["master"]["file"];
@@ -218,7 +221,7 @@ namespace nemu
 					IniData xenc = new FileIniDataParser().ReadFile(FileConfig);
 					string encoder = xenc[enc][$"{bit:00}"];
 
-					TaskManager.Run($"\"{BinFFmpeg}\" -i \"{video}\" -vf \"select=between(n\\,{start}\\,{end}),setpts=PTS-STARTPTS\" -vframes {frames} -pix_fmt yuv{yuv}p{(bit > 8 ? $"{bit}le" : "")} -strict -1 -f yuv4mpegpipe - 2> {OS.Null} | \"{encoder}\" --y4m - {arg} --frames {frames} -o {Path.Combine(DirWatch, $"{id}")}.hevc");
+					TaskManager.Run($"\"{BinFFmpeg}\" -i \"{video}\" -vf \"select=between(n\\,{start}\\,{end}),setpts=PTS-STARTPTS\" -vframes {frames} -pix_fmt yuv{yuv}p{(bit > 8 ? $"{bit}le" : "")} -strict -1 -f yuv4mpegpipe - 2> {OS.Null} | \"{encoder}\" --y4m - {arg} --frames {frames} -o {Path.Combine(DirWatch, $"{id}")}.hevc 2> {Path.Combine(DirWatch, $"{id}")}.stats");
 
 					Console.WriteLine("Finished!");
 					while (File.Exists(filejob)) { Thread.Sleep(1000); } // block until job file get deleted
